@@ -624,11 +624,21 @@ public class BsonGenerator extends GeneratorBase {
      * @throws IOException If an error occurred in the stream while writing
      */
     public void writeDateTime(Date date) throws IOException {
-        _writeArrayFieldNameIfNeeded();
-        _verifyValueWrite("write datetime");
-        _buffer.putByte(_typeMarker, BsonConstants.TYPE_DATETIME);
-        _buffer.putLong(date.getTime());
-        flushBuffer();
+        this.writeDateTime(date.getTime());
+    }
+    
+    /**
+     * Write a BSON date time
+     *
+     * @param millisFromEpoch the number of milliseconds since January 1, 1970, 00:00:00 GMT
+     * @throws IOException If an error occurred in the stream while writing
+     */
+    public void writeDateTime(long millisFromEpoch) throws IOException {
+        this._writeArrayFieldNameIfNeeded();
+        this._verifyValueWrite("write datetime");
+        this._buffer.putByte(this._typeMarker, (byte)9);
+        this._buffer.putLong(millisFromEpoch);
+        this.flushBuffer();
     }
 
     /**
